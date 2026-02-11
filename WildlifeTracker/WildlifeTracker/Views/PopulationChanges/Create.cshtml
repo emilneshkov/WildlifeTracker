@@ -1,0 +1,48 @@
+﻿@model WildlifeTracker.ViewModels.PopulationChanges.PopulationChangeCreateVm
+
+@{
+    ViewData["Title"] = "Въвеждане на годишна промяна";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="mb-3">
+    <strong>Населено място:</strong> @Model.SettlementName
+</div>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="SpeciesId" class="form-label"></label>
+        <select asp-for="SpeciesId" class="form-select" asp-items="Model.SpeciesOptions">
+            <option value="">-- изберете --</option>
+        </select>
+        <span asp-validation-for="SpeciesId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Year" class="form-label"></label>
+        <select asp-for="Year" class="form-select" asp-items="Model.YearOptions"></select>
+        <span asp-validation-for="Year" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Delta" class="form-label"></label>
+        <input asp-for="Delta" class="form-control" />
+        <div class="form-text">Положително число = увеличение, отрицателно = намаление.</div>
+        <span asp-validation-for="Delta" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Запиши</button>
+    <a asp-action="MyHistory" class="btn btn-outline-secondary">Моите записи</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -174,24 +174,46 @@ namespace WildlifeTracker.Data.Seed
             // Volunteer
             const string volunteerEmail = "volunteer@test.com";
             var existingVolunteer = await userManager.FindByEmailAsync(volunteerEmail);
+
+            var firstSettlementId = await context.Settlements.AsNoTracking()
+                .OrderBy(s => s.Id)
+                .Select(s => s.Id)
+                .FirstAsync();
+
+            var volunteerForSettlementExists = await context.Users
+                .AsNoTracking()
+                .AnyAsync(u => u.SettlementId == firstSettlementId);
+
             if (existingVolunteer == null)
             {
-                var firstSettlementId = await context.Settlements.AsNoTracking()
-                    .OrderBy(s => s.Id)
-                    .Select(s => s.Id)
-                    .FirstAsync();
-
-                var volunteer = new ApplicationUser
+                if (volunteerForSettlementExists)
                 {
-                    UserName = volunteerEmail,
-                    Email = volunteerEmail,
-                    FirstName = "Иван",
-                    LastName = "Иванов",
-                    SettlementId = firstSettlementId
-                };
 
-                await userManager.CreateAsync(volunteer, "Volunteer123!");
-                await userManager.AddToRoleAsync(volunteer, "Volunteer");
+                }
+                else
+                {
+                    var volunteer = new ApplicationUser
+                    {
+                        UserName = volunteerEmail,
+                        Email = volunteerEmail,
+                        FirstName = "Иван",
+                        LastName = "Иванов",
+                        SettlementId = firstSettlementId
+                    };
+
+                    await userManager.CreateAsync(volunteer, "Volunteer123!");
+                    await userManager.AddToRoleAsync(volunteer, "Volunteer");
+                }
+            }
+            else
+            {
+                if (existingVolunteer.SettlementId == null)
+                    existingVolunteer.SettlementId = firstSettlementId;
+
+                if (!await userManager.IsInRoleAsync(existingVolunteer, "Volunteer"))
+                    await userManager.AddToRoleAsync(existingVolunteer, "Volunteer");
+
+                await userManager.UpdateAsync(existingVolunteer);
             }
         }
     }

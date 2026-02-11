@@ -1,0 +1,43 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Моите въведени данни";
+    var settlementName = ViewBag.SettlementName as string;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="mb-3">
+    <strong>Населено място:</strong> @settlementName
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Няма въведени данни.</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Вид</th>
+                <th>Година</th>
+                <th>Промяна</th>
+                <th>Въведено на</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model)
+            {
+                <tr>
+                    <td>@row.Species</td>
+                    <td>@row.Year</td>
+                    <td>@row.Delta</td>
+                    <td>@((DateTime)row.CreatedAtUtc)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-action="Create" class="btn btn-primary">Ново въвеждане</a>
