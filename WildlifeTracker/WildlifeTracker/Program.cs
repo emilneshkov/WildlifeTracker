@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WildlifeTracker.Data;
+using WildlifeTracker.Data.Seed;
 using WildlifeTracker.Models.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,5 +47,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    await DbSeeder.SeedAsync(scope.ServiceProvider);
+}
 
 app.Run();
