@@ -26,6 +26,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<WildlifeTracker.Services.PopulationService>();
+builder.Services.AddScoped<WildlifeTracker.Services.ReportsService>();
 
 var app = builder.Build();
 

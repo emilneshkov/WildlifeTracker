@@ -188,7 +188,9 @@ namespace WildlifeTracker.Data.Seed
             {
                 if (volunteerForSettlementExists)
                 {
-
+                    //!!! Нов seeder - corrected volunteer
+                    //!!! Year selector >= 2026/25
+                    //!!! UI - Graph?, Main screen ??
                 }
                 else
                 {

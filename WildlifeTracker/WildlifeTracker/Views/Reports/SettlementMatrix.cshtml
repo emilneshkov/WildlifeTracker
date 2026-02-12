@@ -1,0 +1,38 @@
+﻿@model WildlifeTracker.ViewModels.Reports.SettlementMatrixVm
+@{
+    ViewData["Title"] = "Брой животни по населени места";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="get" class="mb-3">
+    <label class="form-label">Година</label>
+    <select name="year" class="form-select" asp-items="Model.YearOptions"></select>
+    <button class="btn btn-primary mt-2" type="submit">Покажи</button>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                <th>Населено място</th>
+                @foreach (var h in Model.SpeciesHeaders)
+                {
+                    <th>@h</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.Rows)
+            {
+                <tr>
+                    <td>@r.SettlementName</td>
+                    @foreach (var c in r.Cells)
+                    {
+                        <td>@c</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

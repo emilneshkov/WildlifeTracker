@@ -1,0 +1,40 @@
+﻿@model WildlifeTracker.ViewModels.Reports.MunicipalityTotalVm
+@{
+    ViewData["Title"] = "Общ брой животни за община";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="get" class="row g-2 align-items-end mb-3">
+    <div class="col-md-3">
+        <label class="form-label">Година</label>
+        <select name="year" class="form-select" asp-items="Model.YearOptions"></select>
+    </div>
+    <div class="col-md-5">
+        <label class="form-label">Община</label>
+        <select name="municipalityId" class="form-select" asp-items="Model.MunicipalityOptions">
+            <option value="">-- изберете --</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Вид</label>
+        <select name="speciesId" class="form-select" asp-items="Model.SpeciesOptions">
+            <option value="">-- изберете --</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100" type="submit">Покажи</button>
+    </div>
+</form>
+
+@if (Model.MunicipalityId == null)
+{
+    <div class="alert alert-info">Изберете община.</div>
+}
+else
+{
+    <div class="alert alert-success">
+        <strong>@Model.MunicipalityName</strong> — общо животни за @Model.Year: <strong>@Model.Total</strong>
+    </div>
+}

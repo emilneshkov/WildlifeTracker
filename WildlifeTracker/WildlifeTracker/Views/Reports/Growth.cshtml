@@ -1,0 +1,55 @@
+﻿@model WildlifeTracker.ViewModels.Reports.GrowthVm
+@{
+    ViewData["Title"] = "% ръст спрямо миналата година";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="get" class="row g-2 align-items-end mb-3">
+    <div class="col-md-2">
+        <label class="form-label">Година</label>
+        <select name="year" class="form-select" asp-items="Model.YearOptions"></select>
+    </div>
+    <div class="col-md-5">
+        <label class="form-label">Населено място</label>
+        <select name="settlementId" class="form-select" asp-items="Model.SettlementOptions">
+            <option value="">-- изберете --</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">Вид</label>
+        <select name="speciesId" class="form-select" asp-items="Model.SpeciesOptions">
+            <option value="">-- изберете --</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100" type="submit">Покажи</button>
+    </div>
+</form>
+
+@if (Model.SettlementId == null || Model.SpeciesId == null)
+{
+    <div class="alert alert-info">Изберете населено място и вид.</div>
+}
+else
+{
+    <div class="card p-3">
+        <div><strong>Населено място:</strong> @Model.SettlementName</div>
+        <div><strong>Вид:</strong> @Model.SpeciesName</div>
+        <hr />
+        <div><strong>@(Model.Year - 1):</strong> @Model.PreviousCount</div>
+        <div><strong>@Model.Year:</strong> @Model.CurrentCount</div>
+
+        <div class="mt-2">
+            <strong>Промяна (%):</strong>
+            @if (Model.PercentChange == null)
+            {
+                <span>Няма база (предходната година е 0)</span>
+            }
+            else
+            {
+                <span>@Model.PercentChange.Value.ToString("0.##") %</span>
+            }
+        </div>
+    </div>
+}

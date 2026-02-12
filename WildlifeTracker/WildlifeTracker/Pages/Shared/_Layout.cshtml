@@ -31,6 +31,12 @@
                                 <a class="nav-link text-dark" asp-controller="PopulationChanges" asp-action="Create">Въвеждане</a>
                             </li>
                         }
+                        @if (User.IsInRole("Employee"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Reports" asp-action="Index">Справки</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

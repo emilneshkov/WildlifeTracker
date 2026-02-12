@@ -1,0 +1,39 @@
+﻿@model WildlifeTracker.ViewModels.Reports.EndangeredSpeciesVm
+@{
+    ViewData["Title"] = "Застрашени видове";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="get" class="mb-3">
+    <label class="form-label">Година</label>
+    <select name="year" class="form-select" asp-items="Model.YearOptions"></select>
+    <button class="btn btn-primary mt-2" type="submit">Покажи</button>
+</form>
+
+@if (!Model.Items.Any())
+{
+    <div class="alert alert-info">Няма застрашени видове за избраната година.</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Вид</th>
+                <th>Първоначално (област)</th>
+                <th>Текущо (област)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var x in Model.Items)
+            {
+                <tr>
+                    <td>@x.SpeciesName</td>
+                    <td>@x.InitialTotal</td>
+                    <td>@x.CurrentTotal</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
