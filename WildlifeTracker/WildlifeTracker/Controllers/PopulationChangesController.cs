@@ -174,14 +174,20 @@ namespace WildlifeTracker.Controllers
 
             vm.SpeciesOptions = species;
 
-
             var currentYear = DateTime.UtcNow.Year;
-            var years = Enumerable.Range(currentYear - 10, 12)
-                .Reverse()
-                .Select(y => new SelectListItem { Value = y.ToString(), Text = y.ToString() })
-                .ToList();
 
-            vm.YearOptions = years;
+            vm.YearOptions = new List<SelectListItem>
+    {
+        new SelectListItem
+        {
+            Value = currentYear.ToString(),
+            Text = currentYear.ToString(),
+            Selected = true
         }
+    };
+
+            vm.Year = currentYear;
+        }
+
     }
 }

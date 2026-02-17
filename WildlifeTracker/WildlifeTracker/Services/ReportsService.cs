@@ -12,14 +12,20 @@ namespace WildlifeTracker.Services
 
         public List<SelectListItem> BuildYearOptions(int? selectedYear = null)
         {
+            const int startYear = 2023;
             var currentYear = DateTime.UtcNow.Year;
-            var years = Enumerable.Range(currentYear - 10, 12)
+
+            var sel = selectedYear ?? currentYear;
+            if (sel < startYear) sel = startYear;
+            if (sel > currentYear) sel = currentYear;
+
+            var years = Enumerable.Range(startYear, currentYear - startYear + 1)
                 .Reverse()
                 .Select(y => new SelectListItem
                 {
                     Value = y.ToString(),
                     Text = y.ToString(),
-                    Selected = selectedYear.HasValue && selectedYear.Value == y
+                    Selected = y == sel
                 })
                 .ToList();
 

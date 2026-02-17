@@ -28,9 +28,8 @@ namespace WildlifeTracker.Data.Seed
             }
 
             // ---------------------
-            // Municipalities (10)
+            // Municipalities
             // ---------------------
-
             var municipalityNames = new[]
             {
                 "Велико Търново",
@@ -45,11 +44,19 @@ namespace WildlifeTracker.Data.Seed
                 "Златарица"
             };
 
-            if (!await context.Municipalities.AnyAsync())
+            var existingMunicipalities = await context.Municipalities
+                .AsNoTracking()
+                .Select(m => m.Name)
+                .ToListAsync();
+
+            var missingMunicipalities = municipalityNames
+                .Where(n => !existingMunicipalities.Contains(n))
+                .Select(n => new Municipality { Name = n })
+                .ToList();
+
+            if (missingMunicipalities.Any())
             {
-                context.Municipalities.AddRange(
-                    municipalityNames.Select(n => new Municipality { Name = n })
-                );
+                context.Municipalities.AddRange(missingMunicipalities);
                 await context.SaveChangesAsync();
             }
 
@@ -58,13 +65,12 @@ namespace WildlifeTracker.Data.Seed
                 .ToDictionaryAsync(m => m.Name, m => m.Id);
 
             // ---------------------
-            // Settlements 
+            // Settlements
             // ---------------------
-
             var settlementsByMunicipality = new Dictionary<string, string[]>
             {
                 ["Велико Търново"] = new[] { "Арбанаси", "Самоводене", "Ресен", "Шемшево", "Килифарево" },
-                ["Горна Оряховица"] = new[] { "Горна Оряховица", "Лясковец (гр.)", "Долна Оряховица", "Първомайци", "Поликраище" },
+                ["Горна Оряховица"] = new[] { "Горна Оряховица", "Долна Оряховица", "Първомайци", "Поликраище", "Правда" },
                 ["Свищов"] = new[] { "Свищов", "Овча могила", "Царевец", "Българско Сливово", "Вардим" },
                 ["Павликени"] = new[] { "Павликени", "Бяла черква", "Върбовка", "Дъскот", "Михалци" },
                 ["Елена"] = new[] { "Елена", "Мийковци", "Константин", "Беброво", "Яковци" },
@@ -75,33 +81,45 @@ namespace WildlifeTracker.Data.Seed
                 ["Златарица"] = new[] { "Златарица", "Горско Ново село", "Родина", "Дединци", "Средно село" }
             };
 
-            if (!await context.Settlements.AnyAsync())
+            var existingSettlements = await context.Settlements
+                .AsNoTracking()
+                .Select(s => new { s.MunicipalityId, s.Name })
+                .ToListAsync();
+
+            var existingSet = new HashSet<(int municipalityId, string name)>(
+                existingSettlements.Select(x => (x.MunicipalityId, x.Name))
+            );
+
+            var settlementsToAdd = new List<Settlement>();
+
+            foreach (var kvp in settlementsByMunicipality)
             {
-                var settlementsToAdd = new List<Settlement>();
+                var municipalityName = kvp.Key;
+                var municipalityId = municipalities[municipalityName];
 
-                foreach (var kvp in settlementsByMunicipality)
+                foreach (var sName in kvp.Value)
                 {
-                    var municipalityName = kvp.Key;
-                    var settlementNames = kvp.Value;
+                    var key = (municipalityId, sName);
+                    if (existingSet.Contains(key)) continue;
 
-                    var municipalityId = municipalities[municipalityName];
-
-                    foreach (var sName in settlementNames)
+                    settlementsToAdd.Add(new Settlement
                     {
-                        settlementsToAdd.Add(new Settlement
-                        {
-                            Name = sName,
-                            MunicipalityId = municipalityId
-                        });
-                    }
-                }
+                        Name = sName,
+                        MunicipalityId = municipalityId
+                    });
 
+                    existingSet.Add(key);
+                }
+            }
+
+            if (settlementsToAdd.Any())
+            {
                 context.Settlements.AddRange(settlementsToAdd);
                 await context.SaveChangesAsync();
             }
 
             // ---------------------
-            // Species 
+            // Species
             // ---------------------
             var speciesNames = new[]
             {
@@ -117,46 +135,65 @@ namespace WildlifeTracker.Data.Seed
                 "Мечка"
             };
 
-            if (!await context.Species.AnyAsync())
+            var existingSpecies = await context.Species
+                .AsNoTracking()
+                .Select(s => s.Name)
+                .ToListAsync();
+
+            var missingSpecies = speciesNames
+                .Where(n => !existingSpecies.Contains(n))
+                .Select(n => new Species { Name = n })
+                .ToList();
+
+            if (missingSpecies.Any())
             {
-                context.Species.AddRange(speciesNames.Select(n => new Species { Name = n }));
+                context.Species.AddRange(missingSpecies);
                 await context.SaveChangesAsync();
             }
 
             // ---------------------
-            // Initial Populations 
+            // Initial Populations
             // ---------------------
-
             var settlementIds = await context.Settlements.AsNoTracking().Select(s => s.Id).ToListAsync();
             var speciesIds = await context.Species.AsNoTracking().Select(s => s.Id).ToListAsync();
 
-            if (!await context.InitialPopulations.AnyAsync())
+            var existingInitialPairs = await context.InitialPopulations
+                .AsNoTracking()
+                .Select(ip => new { ip.SettlementId, ip.SpeciesId })
+                .ToListAsync();
+
+            var initialSet = new HashSet<(int st, int sp)>(existingInitialPairs.Select(x => (x.SettlementId, x.SpeciesId)));
+
+            var initialToAdd = new List<InitialPopulation>();
+
+            foreach (var stId in settlementIds)
             {
-                var initialList = new List<InitialPopulation>();
-
-                foreach (var stId in settlementIds)
+                foreach (var spId in speciesIds)
                 {
-                    foreach (var spId in speciesIds)
+                    if (initialSet.Contains((stId, spId))) continue;
+
+                    var val = 10 + ((stId * 3 + spId * 7) % 191);
+
+                    initialToAdd.Add(new InitialPopulation
                     {
-                        var val = 10 + ((stId * 3 + spId * 7) % 191);
+                        SettlementId = stId,
+                        SpeciesId = spId,
+                        InitialCount = val
+                    });
 
-                        initialList.Add(new InitialPopulation
-                        {
-                            SettlementId = stId,
-                            SpeciesId = spId,
-                            InitialCount = val
-                        });
-                    }
+                    initialSet.Add((stId, spId));
                 }
+            }
 
-                context.InitialPopulations.AddRange(initialList);
+            if (initialToAdd.Any())
+            {
+                context.InitialPopulations.AddRange(initialToAdd);
                 await context.SaveChangesAsync();
             }
 
             // ---------------------
-            // Test users
+            // Employee user 
             // ---------------------
-            // Employee
             const string employeeEmail = "employee@test.com";
             var existingEmployee = await userManager.FindByEmailAsync(employeeEmail);
             if (existingEmployee == null)
@@ -164,59 +201,169 @@ namespace WildlifeTracker.Data.Seed
                 var employee = new ApplicationUser
                 {
                     UserName = employeeEmail,
-                    Email = employeeEmail
+                    Email = employeeEmail,
+                    EmailConfirmed = true
                 };
 
                 await userManager.CreateAsync(employee, "Employee123!");
                 await userManager.AddToRoleAsync(employee, "Employee");
             }
-
-            // Volunteer
-            const string volunteerEmail = "volunteer@test.com";
-            var existingVolunteer = await userManager.FindByEmailAsync(volunteerEmail);
-
-            var firstSettlementId = await context.Settlements.AsNoTracking()
-                .OrderBy(s => s.Id)
-                .Select(s => s.Id)
-                .FirstAsync();
-
-            var volunteerForSettlementExists = await context.Users
-                .AsNoTracking()
-                .AnyAsync(u => u.SettlementId == firstSettlementId);
-
-            if (existingVolunteer == null)
-            {
-                if (volunteerForSettlementExists)
-                {
-                    //!!! Нов seeder - corrected volunteer
-                    //!!! Year selector >= 2026/25
-                    //!!! UI - Graph?, Main screen ??
-                }
-                else
-                {
-                    var volunteer = new ApplicationUser
-                    {
-                        UserName = volunteerEmail,
-                        Email = volunteerEmail,
-                        FirstName = "Иван",
-                        LastName = "Иванов",
-                        SettlementId = firstSettlementId
-                    };
-
-                    await userManager.CreateAsync(volunteer, "Volunteer123!");
-                    await userManager.AddToRoleAsync(volunteer, "Volunteer");
-                }
-            }
             else
             {
-                if (existingVolunteer.SettlementId == null)
-                    existingVolunteer.SettlementId = firstSettlementId;
-
-                if (!await userManager.IsInRoleAsync(existingVolunteer, "Volunteer"))
-                    await userManager.AddToRoleAsync(existingVolunteer, "Volunteer");
-
-                await userManager.UpdateAsync(existingVolunteer);
+                if (!await userManager.IsInRoleAsync(existingEmployee, "Employee"))
+                    await userManager.AddToRoleAsync(existingEmployee, "Employee");
             }
+
+            // ---------------------
+            // Volunteers
+            // ---------------------
+            var firstNames = new[]
+            {
+                "Иван","Георги","Димитър","Николай","Петър",
+                "Александър","Стоян","Тодор","Васил","Христо",
+                "Мария","Елена","Десислава","Ивелина","Гергана",
+                "Теодора","Надежда","Радостина","Виктория","Силвия"
+            };
+
+            var lastNames = new[]
+            {
+                "Иванов","Петров","Димитров","Николов","Георгиев",
+                "Стоянов","Тодоров","Василев","Христов","Александров",
+                "Маринова","Николова","Георгиева","Петрова","Иванова",
+                "Димитрова","Тодорова","Стоянова","Василева","Христова"
+            };
+
+            var rnd = new Random(42);
+
+            var usedSettlementIds = await context.Users
+                .Where(u => u.SettlementId != null)
+                .Select(u => u.SettlementId!.Value)
+                .ToListAsync();
+
+            var usedSet = new HashSet<int>(usedSettlementIds);
+
+            var allSettlements = await context.Settlements
+                .OrderBy(s => s.Id)
+                .Select(s => new { s.Id, s.Name })
+                .ToListAsync();
+
+            int nameIndex = 0;
+
+            foreach (var s in allSettlements)
+            {
+                if (usedSet.Contains(s.Id))
+                    continue;
+
+                var firstName = firstNames[nameIndex % firstNames.Length];
+                var lastName = lastNames[nameIndex % lastNames.Length];
+                nameIndex++;
+
+                var email = $"vol{s.Id}@test.com";
+
+                var volunteer = new ApplicationUser
+                {
+                    UserName = email,
+                    Email = email,
+                    EmailConfirmed = true,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    SettlementId = s.Id
+                };
+
+                var result = await userManager.CreateAsync(volunteer, "Volunteer123!");
+
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(volunteer, "Volunteer");
+                    usedSet.Add(s.Id);
+                }
+            }
+
+            // ---------------------
+            // Seed sample PopulationChanges 
+            // ---------------------
+            if (!await context.PopulationChanges.AnyAsync())
+            {
+                var years = new[] { 2023, 2024, 2025 };
+
+                var initialDict = await context.InitialPopulations
+                    .AsNoTracking()
+                    .ToDictionaryAsync(x => (x.SettlementId, x.SpeciesId), x => x.InitialCount);
+
+                var currentDict = new Dictionary<(int st, int sp), int>(initialDict);
+
+                var changesToAdd = new List<PopulationChange>();
+
+                var volunteerUsers = await context.Users
+                    .AsNoTracking()
+                    .Where(u => u.SettlementId != null)
+                    .Select(u => new { u.Id, SettlementId = u.SettlementId!.Value })
+                    .ToListAsync();
+
+                var volunteerBySettlement = volunteerUsers
+                    .GroupBy(x => x.SettlementId)
+                    .ToDictionary(g => g.Key, g => g.First().Id);
+
+
+                var endangeredSpeciesNames = new[]
+                {
+                    "Мечка",
+                    "Вълк",
+                    "Дива котка"
+                };
+
+                var endangeredSpeciesIds = await context.Species
+                    .AsNoTracking()
+                    .Where(s => endangeredSpeciesNames.Contains(s.Name))
+                    .Select(s => s.Id)
+                    .ToListAsync();
+
+                foreach (var year in years)
+                {
+                    foreach (var stId in settlementIds)
+                    {
+                        foreach (var spId in speciesIds)
+                        {
+                            int raw;
+
+                            if (endangeredSpeciesIds.Contains(spId))
+                            {
+                                raw = -5 - ((stId + year) % 8);
+                            }
+                            else
+                            {
+                                raw = ((stId * 11 + spId * 17 + year) % 21) - 8;
+                            }
+                            var key = (stId, spId);
+
+                            var before = currentDict[key];
+
+                            var delta = raw;
+                            if (before + delta < 0)
+                                delta = -before;
+
+                            if (!volunteerBySettlement.TryGetValue(stId, out var enteredBy))
+                                continue;
+
+                            changesToAdd.Add(new PopulationChange
+                            {
+                                SettlementId = stId,
+                                SpeciesId = spId,
+                                Year = year,
+                                Delta = delta,
+                                EnteredByUserId = enteredBy,
+                                CreatedAtUtc = DateTime.UtcNow
+                            });
+
+                            currentDict[key] = before + delta;
+                        }
+                    }
+                }
+
+                context.PopulationChanges.AddRange(changesToAdd);
+                await context.SaveChangesAsync();
+            }
+           
         }
     }
 }
