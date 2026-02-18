@@ -1,12 +1,54 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|c:\\users\\grigs\\myfiles\\visualstudioprojects\\wildlifetracker\\wildlifetracker\\wildlifetracker\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|solutionrelative:wildlifetracker\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|c:\\users\\grigs\\myfiles\\visualstudioprojects\\wildlifetracker\\wildlifetracker\\wildlifetracker\\areas\\identity\\pages\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|solutionrelative:wildlifetracker\\areas\\identity\\pages\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "WildlifeTracker\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
+              "RelativeToolTip": "WildlifeTracker\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
+              "ViewState": "AgIAABMAAAAAAAAAAAAAACQAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-18T07:59:29.256Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Pages\\Index.cshtml",
+              "RelativeDocumentMoniker": "WildlifeTracker\\Pages\\Index.cshtml",
+              "ToolTip": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Pages\\Index.cshtml",
+              "RelativeToolTip": "WildlifeTracker\\Pages\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-17T23:00:15.218Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
