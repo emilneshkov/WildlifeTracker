@@ -20,3 +20,67 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+/* HERO SECTION */
+.hero-section {
+    background-image: url('/img/index_background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 90vh;
+    position: relative;
+}
+
+.hero-overlay {
+    background: rgba(0, 0, 0, 0.55);
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+}
+
+/* TEXT */
+.hero-title {
+    font-weight: 700;
+    font-size: 3rem;
+    color: #FFFFFF;
+}
+
+.hero-subtitle {
+    font-size: 1.4rem;
+    color: #E8F5E9;
+    max-width: 600px;
+}
+
+.hero-small {
+    font-size: 0.95rem;
+    color: #C8E6C9;
+}
+
+/* BUTTON */
+.btn-nature {
+    background-color: #1B5E20;
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 6px;
+}
+
+    .btn-nature:hover {
+        background-color: #145A1A;
+    }
+
+/* NAVBAR LINKS */
+.nav-link {
+    color: #1B5E20 !important;
+    font-weight: 500;
+}
+
+    .nav-link:hover {
+        color: #4CAF50 !important;
+    }
+
+/* FOOTER */
+footer {
+    border-top: 1px solid #E0E0E0;
+}

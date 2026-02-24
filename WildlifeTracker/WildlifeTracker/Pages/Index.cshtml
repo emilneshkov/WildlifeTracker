@@ -1,33 +1,27 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Начало";
 }
 
-<div class="text-center"
-      style="height:90vh;
-            background-image:url('/img/WildlifeBackground.jpg');
-            background-size: cover;
-            background-position:center;">
+<div class="hero-section">
+    <div class="hero-overlay">
+        <div class="container">
 
-    <div class="col-7 d-flex flex-column justify-content-center align-items-start h-100 ms-5">
+            <h1 class="hero-title">
+                Мониторинг на дивата природа
+            </h1>
 
-        <h1 class="display-4 fw-bold"
-            style="color:rgb(170, 230, 170);">
-            Информационна система за мониторинг на дивите животни
-        </h1>
+            <p class="hero-subtitle mt-3">
+                Информационна система за наблюдение и анализ
+                на популацията на диви животни
+                в област Велико Търново.
+            </p>
 
-        <p class="fs-4 mt-3"
-           style="color:rgb(200, 240, 200);">
-            Система за наблюдение и анализ на популацията на диви животни
-            в област Велико Търново
-        </p>
+            <p class="hero-small mt-3">
+                Активен мониторинг от 2023 г.
+            </p>
 
-        <p class="fs-6 mt-4"
-           style="color:rgb(210, 240, 210);">
-            Мониторинг активен от 2023 г.
-        </p>
-
+        </div>
     </div>
 </div>
-
