@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WildlifeTracker.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100 mb-0">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container">
@@ -89,10 +89,12 @@
         @RenderBody()
     </main>
 
-    <footer class="bg-white text-center py-3 border-top">
-        <p class="mb-0 text-muted">
-            © 2026 – Система за мониторинг на дивата природа
-        </p>
+    <footer class="bg-white border-top mt-auto">
+        <div class="container py-3  text-center">
+            <p class="text-muted mt-3">
+                © 2026 – Система за мониторинг на дивата природа
+            </p>
+        </div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

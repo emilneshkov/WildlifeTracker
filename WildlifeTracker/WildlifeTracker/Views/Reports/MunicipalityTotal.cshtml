@@ -3,38 +3,112 @@
     ViewData["Title"] = "Общ брой животни за община";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="container py-4">
 
-<form method="get" class="row g-2 align-items-end mb-3">
-    <div class="col-md-3">
-        <label class="form-label">Година</label>
-        <select name="year" class="form-select" asp-items="Model.YearOptions"></select>
-    </div>
-    <div class="col-md-5">
-        <label class="form-label">Община</label>
-        <select name="municipalityId" class="form-select" asp-items="Model.MunicipalityOptions">
-            <option value="">-- изберете --</option>
-        </select>
-    </div>
-    <div class="col-md-4">
-        <label class="form-label">Вид</label>
-        <select name="speciesId" class="form-select" asp-items="Model.SpeciesOptions">
-            <option value="">-- изберете --</option>
-        </select>
+    <div class="mb-4">
+        <h1 class="h3 mb-2 fw-bold" style="color:#1B4332;">@ViewData["Title"]</h1>
+        <p class="mb-0" style="color:#5C6770;">
+            Справка за общия брой животни от избран вид в избрана община.
+        </p>
     </div>
 
-    <div class="col-md-2">
-        <button class="btn btn-primary w-100" type="submit">Покажи</button>
-    </div>
-</form>
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3 align-items-end">
 
-@if (Model.MunicipalityId == null)
-{
-    <div class="alert alert-info">Изберете община.</div>
-}
-else
-{
-    <div class="alert alert-success">
-        <strong>@Model.MunicipalityName</strong> — общо животни за @Model.Year: <strong>@Model.Total</strong>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold" style="color:#2D3748;">Година</label>
+                    <select name="year" class="form-select" asp-items="Model.YearOptions"></select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold" style="color:#2D3748;">Община</label>
+                    <select name="municipalityId" class="form-select" asp-items="Model.MunicipalityOptions">
+                        <option value="">-- изберете --</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold" style="color:#2D3748;">Вид животно</label>
+                    <select name="speciesId" class="form-select" asp-items="Model.SpeciesOptions">
+                        <option value="">-- изберете --</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <button class="btn text-white w-100" type="submit" style="background-color:#1B5E20;">
+                        Покажи
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </div>
-}
+
+    @if (Model.MunicipalityId == null && Model.SpeciesId == null)
+    {
+        <div class="alert border-0 shadow-sm" style="background-color:#F8F9FA; color:#495057;">
+            Изберете <strong>община</strong> и <strong>вид животно</strong>, за да видите резултата.
+        </div>
+    }
+    else if (Model.MunicipalityId == null)
+    {
+        <div class="alert alert-warning shadow-sm">
+            Моля, изберете <strong>община</strong>.
+        </div>
+    }
+    else if (Model.SpeciesId == null)
+    {
+        <div class="alert alert-warning shadow-sm">
+            Моля, изберете <strong>вид животно</strong>.
+        </div>
+    }
+    else
+    {
+        var totalValue = Model.Total ?? 0;
+
+        <div class="row g-4">
+            <div class="">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+
+                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+                            <div>
+                                <h5 class="card-title mb-1 fw-bold" style="color:#1B4332;">Резултат:</h5>
+                                <p class="mb-0" style="color:#6C757D;">
+                                    Общ брой за избраните критерии
+                                </p>
+                            </div>
+
+                            <span class="badge rounded-pill px-3 py-2"
+                                  style="background-color:#D8F3DC; color:#1B4332;">
+                                @Model.Year
+                            </span>
+                        </div>
+
+                        <div class="display-4 fw-bold mb-2" style="color:#1B5E20;">
+                            @totalValue
+                        </div>
+
+                        <p class="mb-4 fs-5" style="color:#495057;">
+                            животни от вида
+                            <strong style="color:#1B4332;">@Model.SpeciesName</strong>
+                            в община
+                            <strong style="color:#1B4332;">@Model.MunicipalityName</strong>
+                        </p>
+
+                        <div class="alert border mb-0"
+                             style="background-color:#F6FFF8; border-color:#D8F3DC !important; color:#344E41;">
+                            В община <strong>@Model.MunicipalityName</strong> има общо
+                            <strong style="color:#1B5E20;">@totalValue</strong>
+                            животни от вида <strong>@Model.SpeciesName</strong>
+                            за <strong>@Model.Year</strong> година.
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

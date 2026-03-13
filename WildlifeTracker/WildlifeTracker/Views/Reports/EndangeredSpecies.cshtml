@@ -3,37 +3,104 @@
     ViewData["Title"] = "Застрашени видове";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="container py-4">
 
-<form method="get" class="mb-3">
-    <label class="form-label">Година</label>
-    <select name="year" class="form-select" asp-items="Model.YearOptions"></select>
-    <button class="btn btn-primary mt-2" type="submit">Покажи</button>
-</form>
+    <div class="mb-4">
+        <h1 class="h3 mb-1">@ViewData["Title"]</h1>
+        <p class="text-muted mb-0">
+            Видове, при които текущата численост е по-ниска от първоначално отчетената за областта.
+        </p>
+    </div>
 
-@if (!Model.Items.Any())
-{
-    <div class="alert alert-info">Няма застрашени видове за избраната година.</div>
-}
-else
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Вид</th>
-                <th>Първоначално (област)</th>
-                <th>Текущо (област)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var x in Model.Items)
-            {
-                <tr>
-                    <td>@x.SpeciesName</td>
-                    <td>@x.InitialTotal</td>
-                    <td>@x.CurrentTotal</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Година</label>
+                    <select name="year" class="form-select" asp-items="Model.YearOptions"></select>
+                </div>
+
+                <div class="col-md-2">
+                    <button class="btn text-white w-100"
+                            style="background-color:#1B5E20;">
+                        Покажи
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if (!Model.Items.Any())
+    {
+        <div class="alert alert-success shadow-sm">
+            Няма застрашени видове за <strong>@Model.Year</strong> година.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white border-0 pt-4 pb-0">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div>
+                        <h2 class="h5 mb-1">Визуално сравнение</h2>
+                        <p class="text-muted mb-0">Година: <strong>@Model.Year</strong></p>
+                    </div>
+
+                    <span class="badge rounded-pill text-bg-warning">
+                        Застрашени видове: @Model.Items.Count
+                    </span>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                @foreach (var x in Model.Items)
+                {
+                    var percent = x.InitialTotal == 0
+                    ? 0
+                    : (int)Math.Round((double)x.CurrentTotal / x.InitialTotal * 100);
+
+                    <div class="mb-4">
+
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="fw-semibold">@x.SpeciesName</span>
+                            <span class="text-muted">
+                                Текущо: @x.CurrentTotal / Първоначално: @x.InitialTotal
+                            </span>
+                        </div>
+
+                        <div class="progress" style="height:22px;">
+                            <div class="progress-bar bg-warning text-dark fw-semibold progress-animated"
+                                 role="progressbar"
+                                 style="width:0%; transition: width 1.2s ease-in-out;"
+                                 data-width="@percent"
+                                 aria-valuenow="@percent"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100">
+                                @percent%
+                            </div>
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        </div>
+    }
+
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const bars = document.querySelectorAll(".progress-animated");
+
+            setTimeout(() => {
+                bars.forEach(bar => {
+                    const targetWidth = bar.getAttribute("data-width");
+                    bar.style.width = targetWidth + "%";
+                });
+            }, 150);
+        });
+    </script>
 }

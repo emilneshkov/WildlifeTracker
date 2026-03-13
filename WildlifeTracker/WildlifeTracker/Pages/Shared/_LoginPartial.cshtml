@@ -3,12 +3,29 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+@{
+    var user = await UserManager.GetUserAsync(User);
+
+    var displayName = "Потребител";
+
+    if (User.IsInRole("Employee"))
+    {
+        displayName = "Администратор";
+    }
+    else if (user != null)
+    {
+        displayName = $"{user.FirstName} {user.LastName}";
+    }
+}
+
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" title="Manage">Здравей @User.Identity?.Name!</a>
-    </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" title="Manage">
+                Здравей @displayName!
+            </a>
+        </li>
     <li class="nav-item">
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
             <button  type="submit" class="nav-link btn btn-link text-dark">Изход</button>
@@ -18,7 +35,7 @@
 else
 {
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Влизане</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login"><strong>Влизане</strong></a>
     </li>
 }
 </ul>

@@ -3,41 +3,110 @@
 @{
     ViewData["Title"] = "Моите въведени данни";
     var settlementName = ViewBag.SettlementName as string;
+
+    var grouped = Model.GroupBy(x => x.Year).OrderByDescending(g => g.Key);
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="container py-4">
 
-<div class="mb-3">
-    <strong>Населено място:</strong> @settlementName
-</div>
+    <div class="mb-4">
+        <h1 class="h3 mb-2 fw-bold" style="color:#1B4332;">@ViewData["Title"]</h1>
+        <p class="mb-0" style="color:#5C6770;">
+            Преглед на въведените от Вас промени в популацията на дивите животни.
+        </p>
+    </div>
 
-@if (!Model.Any())
-{
-    <div class="alert alert-info">Няма въведени данни.</div>
-}
-else
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Вид</th>
-                <th>Година</th>
-                <th>Промяна</th>
-                <th>Въведено на</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var row in Model)
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body py-3 d-flex justify-content-between align-items-center">
+            <div>
+                <span class="fw-semibold">Населено място:</span>
+                <span>@settlementName</span>
+            </div>
+
+            <a asp-action="Create" class="btn text-white" style="background-color:#1B5E20;">
+                Ново въвеждане
+            </a>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-secondary">
+            Все още няма въведени данни.
+        </div>
+    }
+    else
+    {
+        <div class="accordion" id="historyAccordion">
+
+            @foreach (var yearGroup in grouped)
             {
-                <tr>
-                    <td>@row.Species</td>
-                    <td>@row.Year</td>
-                    <td>@row.Delta</td>
-                    <td>@((DateTime)row.CreatedAtUtc)</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+                var year = yearGroup.Key;
+                var collapseId = $"collapse_{year}";
+                var headerId = $"heading_{year}";
+                var count = yearGroup.Count();
 
-<a asp-action="Create" class="btn btn-primary">Ново въвеждане</a>
+                <div class="accordion-item shadow-sm mb-2 border-0">
+
+                    <h2 class="accordion-header" id="@headerId">
+                        <button class="accordion-button collapsed fw-semibold"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#@collapseId">
+
+                            <div class="d-flex justify-content-between w-100 me-3">
+                                <span>Година @year</span>
+                                <span class="badge bg-secondary">@count записа</span>
+                            </div>
+
+                        </button>
+                    </h2>
+
+                    <div id="@collapseId"
+                         class="accordion-collapse collapse"
+                         data-bs-parent="#historyAccordion">
+
+                        <div class="accordion-body">
+
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Вид животно</th>
+                                        <th class="text-center">Промяна</th>
+                                        <th class="text-center">Въведено на</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var row in yearGroup)
+                                    {
+                                        var delta = (int)row.Delta;
+                                        var deltaClass = delta >= 0 ? "text-success" : "text-danger";
+                                        var deltaPrefix = delta >= 0 ? "+" : "";
+
+                                        <tr>
+                                            <td class="fw-semibold">@row.Species</td>
+
+                                            <td class="text-center fw-bold @deltaClass">
+                                                @deltaPrefix@delta
+                                            </td>
+
+                                            <td class="text-center text-muted">
+                                                @((DateTime)row.CreatedAtUtc)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

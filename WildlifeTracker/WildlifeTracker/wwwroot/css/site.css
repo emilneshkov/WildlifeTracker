@@ -21,10 +21,9 @@ body {
   margin-bottom: 60px;
 }
 
-
 /* HERO SECTION */
-.hero-section {
-    background-image: url('/img/index_background.jpg');
+.hero-section{
+    background-image: url('/img/index_background_2.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -79,7 +78,6 @@ body {
     .nav-link:hover {
         color: #4CAF50 !important;
     }
-
 /* FOOTER */
 footer {
     border-top: 1px solid #E0E0E0;

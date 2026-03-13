@@ -69,6 +69,12 @@ namespace WildlifeTracker.Controllers
                 return View(vm);
 
             var settlementId = user.SettlementId.Value;
+            vm.SettlementName = await _db.Settlements
+               .AsNoTracking()
+               .Where(s => s.Id == settlementId)
+               .Select(s => s.Name)
+               .FirstOrDefaultAsync();
+
             var speciesId = vm.SpeciesId!.Value;
 
             var hasInitial = await _db.InitialPopulations
@@ -162,8 +168,23 @@ namespace WildlifeTracker.Controllers
 
         private async Task FillDropdownsAsync(PopulationChangeCreateVm vm)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.SettlementId == null)
+                return;
+
+            var currentYear = DateTime.UtcNow.Year;
+            var settlementId = user.SettlementId.Value;
+
+      
+            var usedSpeciesIds = await _db.PopulationChanges
+                .AsNoTracking()
+                .Where(pc => pc.SettlementId == settlementId && pc.Year == currentYear)
+                .Select(pc => pc.SpeciesId)
+                .ToListAsync();
+
             var species = await _db.Species
                 .AsNoTracking()
+                .Where(s => !usedSpeciesIds.Contains(s.Id))
                 .OrderBy(s => s.Name)
                 .Select(s => new SelectListItem
                 {
@@ -173,8 +194,6 @@ namespace WildlifeTracker.Controllers
                 .ToListAsync();
 
             vm.SpeciesOptions = species;
-
-            var currentYear = DateTime.UtcNow.Year;
 
             vm.YearOptions = new List<SelectListItem>
     {
@@ -188,6 +207,5 @@ namespace WildlifeTracker.Controllers
 
             vm.Year = currentYear;
         }
-
     }
 }

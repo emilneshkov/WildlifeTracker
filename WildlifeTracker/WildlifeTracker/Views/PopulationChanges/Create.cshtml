@@ -4,44 +4,134 @@
     ViewData["Title"] = "Въвеждане на годишна промяна";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="container py-4">
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
+    <div class="mb-4">
+        <h1 class="h3 mb-2 fw-bold" style="color:#1B4332;">@ViewData["Title"]</h1>
+        <p class="mb-0" style="color:#5C6770;">
+            Въведете промяната в популацията за текущата година.
+        </p>
+    </div>
 
-<div class="mb-3">
-    <strong>Населено място:</strong> @Model.SettlementName
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success shadow-sm">
+            @TempData["Success"]
+        </div>
+    }
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
+            <div class="row g-4">
+
+                <div class="col-lg-8">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold" style="color:#2D3748;">Населено място</label>
+                            <input class="form-control" value="@Model.SettlementName" disabled />
+                        </div>
+
+                        @if (!Model.SpeciesOptions.Any())
+                        {
+                            <div class="alert alert-warning">
+                                За текущата година вече има въведени данни за всички видове животни.
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-3">
+                                <label asp-for="SpeciesId" class="form-label fw-semibold" style="color:#2D3748;"></label>
+                                <select asp-for="SpeciesId" class="form-select" asp-items="Model.SpeciesOptions">
+                                    <option value="">-- изберете --</option>
+                                </select>
+                                <span asp-validation-for="SpeciesId" class="text-danger"></span>
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <label asp-for="Year" class="form-label fw-semibold" style="color:#2D3748;"></label>
+                            <select asp-for="Year" class="form-select" asp-items="Model.YearOptions"></select>
+                            <span asp-validation-for="Year" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Delta" class="form-label fw-semibold" style="color:#2D3748;"></label>
+                            <input asp-for="Delta" class="form-control" />
+                            <div class="form-text">
+                                Използвайте положително число за увеличение и отрицателно число за намаление.
+                            </div>
+                            <span asp-validation-for="Delta" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex gap-2 mt-4">
+                            @if (Model.SpeciesOptions.Any())
+                            {
+                                <button type="submit" class="btn text-white px-4" style="background-color:#1B5E20;">
+                                    Запиши
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-secondary px-4" disabled>
+                                    Няма налични видове
+                                </button>
+                            }
+                            <a asp-action="MyHistory" class="btn btn-outline-secondary">
+                                Моите записи
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm h-100" style="background-color:#F6FFF8;">
+                        <div class="card-body p-4">
+
+                            <h5 class="fw-bold mb-3" style="color:#1B4332;">
+                                Указания
+                            </h5>
+
+                            <div class="mb-3">
+                                <div class="fw-semibold mb-1">1. Избор на вид</div>
+                                <div class="text-muted small">
+                                    Изберете вида диво животно, за който въвеждате промяна в популацията.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="fw-semibold mb-1">2. Година</div>
+                                <div class="text-muted small">
+                                    Годината се попълва автоматично според текущия период на наблюдение.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="fw-semibold mb-1">3. Промяна в популацията</div>
+                                <div class="text-muted small">
+                                    Въведете числова стойност, която показва промяната в броя на животните.
+                                </div>
+
+                                <div class="mt-2 small">
+                                    <span class="text-success fw-semibold"> Положително число</span> – увеличение<br />
+                                    <span class="text-danger fw-semibold">− Отрицателно число</span> – намаление
+                                </div>
+                            </div>
+
+                            <div class="alert alert-warning mt-3 mb-0 small">
+                                Не може да се въведе стойност, която води до отрицателна популация.
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>
-
-<form asp-action="Create" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    <div class="mb-3">
-        <label asp-for="SpeciesId" class="form-label"></label>
-        <select asp-for="SpeciesId" class="form-select" asp-items="Model.SpeciesOptions">
-            <option value="">-- изберете --</option>
-        </select>
-        <span asp-validation-for="SpeciesId" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Year" class="form-label"></label>
-        <select asp-for="Year" class="form-select" asp-items="Model.YearOptions"></select>
-        <span asp-validation-for="Year" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Delta" class="form-label"></label>
-        <input asp-for="Delta" class="form-control" />
-        <div class="form-text">Положително число = увеличение, отрицателно = намаление.</div>
-        <span asp-validation-for="Delta" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Запиши</button>
-    <a asp-action="MyHistory" class="btn btn-outline-secondary">Моите записи</a>
-</form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
