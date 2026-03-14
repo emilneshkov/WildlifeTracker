@@ -49,14 +49,32 @@
         </div>
 
         <div class="card-body">
-            <div class="mb-3 d-flex flex-wrap gap-2 small">
-                <span class="badge text-dark" style="background-color:#f8f9fa;">Няма данни</span>
-                <span class="badge text-dark" style="background-color:#d1e7dd;">Ниска стойност</span>
-                <span class="badge text-dark" style="background-color:#75b798;">Средна стойност</span>
-                <span class="badge text-white" style="background-color:#1B5E20;">Висока стойност</span>
+            <div class="d-flex justify-content-between align-items-end flex-wrap mb-3">
+                <div class="d-flex align-items-end gap-3 flex-wrap">
+                    <div>
+                        <label for="settlementSearch" class="form-label fw-semibold">Търсене по населено място</label>
+                        <input type="text"
+                               id="settlementSearch"
+                               class="form-control"
+                               placeholder="Въведете име..."
+                               style="width:260px;">
+                    </div>
+
+                    <div class="small text-muted pb-1">
+                        Показани редове: <span id="visibleRowsCount">@Model.Rows.Count</span>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 small flex-wrap">
+                    <span class="badge text-dark" style="background-color:#f8f9fa;">Няма данни</span>
+                    <span class="badge text-dark" style="background-color:#d1e7dd;">Ниска стойност</span>
+                    <span class="badge text-dark" style="background-color:#75b798;">Средна стойност</span>
+                    <span class="badge text-white" style="background-color:#1B5E20;">Висока стойност</span>
+                </div>
+
             </div>
 
-            <div class="table-responsive">
+
                 <table class="table table-bordered table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
@@ -70,12 +88,12 @@
                     <tbody>
                         @foreach (var r in Model.Rows)
                         {
-                            <tr>
+                            <tr class="settlement-row" data-settlement="@r.SettlementName.ToLower()">
                                 <td class="fw-semibold bg-light">@r.SettlementName</td>
 
                                 @foreach (var c in r.Cells)
                                 {
-                                    if (!int.TryParse(c, out var value))
+                                    if (!int.TryParse(c, out var value) || value == 0)
                                     {
                                         <td class="text-center text-muted bg-light">-</td>
                                     }
@@ -115,3 +133,33 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("settlementSearch");
+            const rows = document.querySelectorAll(".settlement-row");
+            const visibleRowsCount = document.getElementById("visibleRowsCount");
+
+            function filterRows() {
+                const query = searchInput.value.trim().toLowerCase();
+                let visibleCount = 0;
+
+                rows.forEach(row => {
+                    const settlementName = row.getAttribute("data-settlement");
+
+                    if (settlementName.includes(query)) {
+                        row.style.display = "";
+                        visibleCount++;
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+
+                visibleRowsCount.textContent = visibleCount;
+            }
+
+            searchInput.addEventListener("input", filterRows);
+        });
+    </script>
+}

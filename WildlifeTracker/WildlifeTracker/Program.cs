@@ -22,7 +22,22 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews()
+    .AddMvcOptions(options =>
+    {
+        options.ModelBindingMessageProvider.SetValueIsInvalidAccessor(
+            value => "Моля въведете валидно число.");
+
+        options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+            _ => "Полето е задължително.");
+
+        options.ModelBindingMessageProvider.SetValueIsInvalidAccessor(
+            value => $"Стойността '{value}' е невалидна.");
+
+        options.ModelBindingMessageProvider.SetMissingBindRequiredValueAccessor(
+            name => $"Липсва стойност за '{name}'.");
+    });
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<WildlifeTracker.Services.PopulationService>();

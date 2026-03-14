@@ -104,3 +104,12 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    $.extend($.validator.messages, {
+        required: "Полето е задължително.",
+        number: "Моля въведете валидно число.",
+        digits: "Моля въведете само цифри.",
+        email: "Моля въведете валиден имейл адрес."
+    });
+</script>
