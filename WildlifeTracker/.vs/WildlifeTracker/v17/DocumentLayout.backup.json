@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|c:\\users\\grigs\\myfiles\\visualstudioprojects\\wildlifetracker\\wildlifetracker\\wildlifetracker\\views\\reports\\settlementmatrix.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|solutionrelative:wildlifetracker\\views\\reports\\settlementmatrix.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|c:\\users\\grigs\\myfiles\\visualstudioprojects\\wildlifetracker\\wildlifetracker\\wildlifetracker\\pages\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|solutionrelative:wildlifetracker\\pages\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|c:\\users\\grigs\\myfiles\\visualstudioprojects\\wildlifetracker\\wildlifetracker\\wildlifetracker\\data\\seed\\dbseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|solutionrelative:wildlifetracker\\data\\seed\\dbseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|c:\\users\\grigs\\myfiles\\visualstudioprojects\\wildlifetracker\\wildlifetracker\\wildlifetracker\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|solutionrelative:wildlifetracker\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|c:\\users\\grigs\\myfiles\\visualstudioprojects\\wildlifetracker\\wildlifetracker\\wildlifetracker\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|solutionrelative:wildlifetracker\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|c:\\users\\grigs\\myfiles\\visualstudioprojects\\wildlifetracker\\wildlifetracker\\wildlifetracker\\services\\reportsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38033E26-2A1B-4CEF-9782-5041D444C2E5}|WildlifeTracker\\WildlifeTracker.csproj|solutionrelative:wildlifetracker\\services\\reportsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,32 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DbSeeder.cs",
-              "DocumentMoniker": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Data\\Seed\\DbSeeder.cs",
-              "RelativeDocumentMoniker": "WildlifeTracker\\Data\\Seed\\DbSeeder.cs",
-              "ToolTip": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Data\\Seed\\DbSeeder.cs",
-              "RelativeToolTip": "WildlifeTracker\\Data\\Seed\\DbSeeder.cs",
-              "ViewState": "AgIAAEwAAAAAAAAAAAAgwE4AAABhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-14T09:49:29.189Z",
+              "DocumentIndex": 0,
+              "Title": "Error.cshtml",
+              "DocumentMoniker": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Pages\\Error.cshtml",
+              "RelativeDocumentMoniker": "WildlifeTracker\\Pages\\Error.cshtml",
+              "ToolTip": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Pages\\Error.cshtml",
+              "RelativeToolTip": "WildlifeTracker\\Pages\\Error.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-02T22:42:16.44Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SettlementMatrix.cshtml",
-              "DocumentMoniker": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Views\\Reports\\SettlementMatrix.cshtml",
-              "RelativeDocumentMoniker": "WildlifeTracker\\Views\\Reports\\SettlementMatrix.cshtml",
-              "ToolTip": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Views\\Reports\\SettlementMatrix.cshtml",
-              "RelativeToolTip": "WildlifeTracker\\Views\\Reports\\SettlementMatrix.cshtml",
-              "ViewState": "AgIAADAAAAAAAAAAAAAAAEEAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-14T09:43:01.988Z",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Program.cs",
+              "RelativeDocumentMoniker": "WildlifeTracker\\Program.cs",
+              "ToolTip": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Program.cs",
+              "RelativeToolTip": "WildlifeTracker\\Program.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAIwC4AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-02T22:35:59.718Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ReportsService.cs",
+              "DocumentMoniker": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Services\\ReportsService.cs",
+              "RelativeDocumentMoniker": "WildlifeTracker\\Services\\ReportsService.cs",
+              "ToolTip": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Services\\ReportsService.cs",
+              "RelativeToolTip": "WildlifeTracker\\Services\\ReportsService.cs",
+              "ViewState": "AgIAABUBAAAAAAAAAAAIwBwBAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T22:26:28.453Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ReportsController.cs",
+              "DocumentMoniker": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Controllers\\ReportsController.cs",
+              "RelativeDocumentMoniker": "WildlifeTracker\\Controllers\\ReportsController.cs",
+              "ToolTip": "C:\\Users\\GRIGS\\MyFiles\\VisualStudioProjects\\WildlifeTracker\\WildlifeTracker\\WildlifeTracker\\Controllers\\ReportsController.cs",
+              "RelativeToolTip": "WildlifeTracker\\Controllers\\ReportsController.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwC4AAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-28T21:59:05.18Z",
               "EditorCaption": ""
             }
           ]

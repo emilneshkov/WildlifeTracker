@@ -22,6 +22,10 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/"; 
+});
 
 builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
@@ -38,7 +42,16 @@ builder.Services.AddControllersWithViews()
         options.ModelBindingMessageProvider.SetMissingBindRequiredValueAccessor(
             name => $"Липсва стойност за '{name}'.");
     });
-builder.Services.AddRazorPages();
+builder.Services
+    .AddRazorPages()
+    .AddMvcOptions(options =>
+    {
+        options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor(
+            (value, fieldName) => $"Стойността '{value}' не е валидна за полето {fieldName}.");
+
+        options.ModelBindingMessageProvider.SetValueMustBeANumberAccessor(
+            fieldName => $"Полето {fieldName} трябва да бъде число.");
+    });
 
 builder.Services.AddScoped<WildlifeTracker.Services.PopulationService>();
 builder.Services.AddScoped<WildlifeTracker.Services.ReportsService>();
